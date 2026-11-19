@@ -3,75 +3,79 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0f0f1a">
+<meta name="theme-color" content="#ffffff">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Preview">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <title>KodEdit Preview</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;overflow:hidden;background:#0f0f1a;color:#e2e8f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
-#login{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;gap:10px;background:#0f0f1a;z-index:50}
-#login.hide{display:none}
-#login h2{color:#4cc9f0;font-size:20px}
-#login p{color:#94a3b8;font-size:13px;text-align:center;margin-bottom:8px}
-.f{width:100%;max-width:320px;padding:11px 14px;background:#16213e;border:1px solid #2d3748;border-radius:10px;color:#e2e8f0;font-size:14px;outline:none}
-.b{width:100%;max-width:320px;padding:12px;border-radius:10px;border:none;background:#7b2ff7;color:#fff;font-size:14px;font-weight:600;cursor:pointer}
-.b.alt{background:#16213e;border:1px solid #2d3748}
-#msg{color:#ef476f;font-size:13px;min-height:18px}
-#bar{position:fixed;top:0;left:0;right:0;height:34px;display:flex;align-items:center;gap:6px;padding:0 8px;background:#1a1a2e;border-bottom:1px solid #2d3748;z-index:20;font-size:12px}
-#bar.sorok{transform:translateY(-100%)}
-#dot{width:9px;height:9px;border-radius:50%;background:#94a3b8;flex-shrink:0}
-#dot.on{background:#06d6a0}
-#dot.flash{background:#ffd166}
-#info{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#94a3b8}
-#info b{color:#4cc9f0}
-.tb{flex-shrink:0;height:24px;padding:0 8px;border-radius:6px;border:1px solid #2d3748;background:#16213e;color:#e2e8f0;font-size:11px;cursor:pointer}
-.tb.on{border-color:#06d6a0;color:#06d6a0}
-#tunjuk{position:fixed;top:4px;right:6px;z-index:21;display:none;opacity:.55}
-#wrap{position:fixed;top:34px;left:0;right:0;bottom:0;background:#fff}
-#wrap.penuh{top:0}
-#wrap iframe{width:100%;height:100%;border:0;display:block;background:#fff}
-#kosong{position:fixed;top:34px;left:0;right:0;bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:24px;text-align:center;color:#94a3b8;font-size:13px;line-height:1.6;background:#0f0f1a}
-#kosong .ik{font-size:44px}
+/* Mesra KINDLE: hitam-putih, tiada emoji, butang besar bertulis, CSS lama (tiada inset / gap / var) */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; background: #fff; color: #000; font-family: Georgia, 'Times New Roman', serif; font-size: 17px; }
+#login { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 50; background: #fff; overflow-y: auto; padding: 30px 20px; text-align: center; }
+#login.hide { display: none; }
+#login h2 { font-size: 1.5rem; margin: 10px 0 4px; }
+#login p { font-size: 0.95rem; margin-bottom: 18px; }
+.kotak { display: block; width: 100%; max-width: 420px; margin: 0 auto 10px; padding: 12px 14px; font-size: 1.05rem; font-family: inherit; color: #000; background: #fff; border: 2px solid #000; border-radius: 8px; }
+.btn { display: block; width: 100%; max-width: 420px; margin: 0 auto 10px; padding: 13px; font-size: 1.05rem; font-weight: bold; font-family: inherit; color: #fff; background: #000; border: 2px solid #000; border-radius: 8px; }
+.btn.putih { color: #000; background: #fff; }
+.garis { max-width: 420px; margin: 16px auto 12px; border-top: 2px dashed #000; }
+#msg { min-height: 22px; font-weight: bold; margin-top: 6px; }
+#bar { position: fixed; top: 0; left: 0; right: 0; z-index: 20; background: #fff; border-bottom: 3px solid #000; padding: 6px 6px 4px; }
+#bar.sorok { display: none; }
+#info { font-size: 0.9rem; line-height: 1.3; padding: 0 2px 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#info b { font-weight: bold; }
+.baris { width: 100%; white-space: nowrap; font-size: 0; }
+.tb { display: inline-block; width: 19.2%; margin-right: 1%; vertical-align: top; height: 40px; font-size: 0.85rem; font-weight: bold; font-family: inherit; color: #000; background: #fff; border: 2px solid #000; border-radius: 6px; padding: 0 2px; }
+.baris .tb:last-child { margin-right: 0; }
+.tb.on { color: #fff; background: #000; }
+#tunjuk { position: fixed; top: 4px; right: 4px; z-index: 21; display: none; width: auto; padding: 0 14px; margin: 0; }
+#wrap { position: fixed; left: 0; right: 0; bottom: 0; top: 86px; background: #fff; }
+#wrap.penuh { top: 0; }
+#wrap iframe { width: 100%; height: 100%; border: 0; display: block; background: #fff; }
+#kosong { position: fixed; left: 0; right: 0; bottom: 0; top: 86px; background: #fff; padding: 40px 22px; text-align: center; font-size: 1.05rem; line-height: 1.6; }
+#kosong .kad { max-width: 480px; margin: 0 auto; border: 3px solid #000; border-radius: 12px; padding: 18px 16px; }
+#kosong h3 { font-size: 1.2rem; margin-bottom: 8px; }
+.baru { display: inline-block; background: #000; color: #fff; padding: 0 6px; border-radius: 4px; }
 </style>
 </head>
 <body>
 
 <div id="login">
-  <div style="font-size:42px">📡</div>
+  <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><rect x="10" y="26" width="44" height="28" rx="3" fill="#fff" stroke="#000" stroke-width="4"/><path d="M18 35 H34 M22 42 H44 M22 48 H38" stroke="#000" stroke-width="3"/><path d="M28 54 H36 V60 H28 Z M22 60 H42" stroke="#000" stroke-width="3" fill="#000"/><circle cx="32" cy="16" r="3" fill="#000"/><path d="M24 12 A11 11 0 0 1 40 12 M19 7 A18 18 0 0 1 45 7" fill="none" stroke="#000" stroke-width="3"/></svg>
   <h2>KodEdit Preview</h2>
   <p>Log masuk dengan akaun KodEdit yang sama</p>
-  <input class="f" id="em" type="email" placeholder="Email">
-  <input class="f" id="pw" type="password" placeholder="Kata laluan">
-  <button class="b" onclick="masuk()">Log Masuk</button>
-  <input class="f" id="pin" type="password" inputmode="numeric" maxlength="6" placeholder="Admin PIN" style="letter-spacing:4px;text-align:center;margin-top:10px">
-  <button class="b alt" onclick="masukPin()">Masuk dengan PIN</button>
+  <input class="kotak" id="em" type="email" placeholder="Email">
+  <input class="kotak" id="pw" type="password" placeholder="Kata laluan">
+  <button type="button" class="btn" onclick="masuk()">LOG MASUK</button>
+  <div class="garis"></div>
+  <input class="kotak" id="pin" type="password" inputmode="numeric" maxlength="6" placeholder="Admin PIN" style="text-align:center;letter-spacing:4px;">
+  <button type="button" class="btn putih" onclick="masukPin()">MASUK DENGAN PIN</button>
   <div id="msg"></div>
 </div>
 
 <div id="bar">
-  <span id="dot"></span>
-  <span id="info">Menunggu...</span>
-  <button class="tb on" id="b-auto" onclick="togolAuto()" title="Muat semula automatik bila kod berubah">⟳ Auto</button>
-  <button class="tb" onclick="muatSemula()" title="Muat semula sekarang">↻</button>
-  <button class="tb" onclick="bukaTab()" title="Buka dalam tab baru">⬀</button>
-  <button class="tb" onclick="sorokBar(true)" title="Sorok bar (skrin penuh)">⛶</button>
-  <button class="tb" onclick="keluar()" title="Log keluar">⏻</button>
+  <div id="info">Menunggu...</div>
+  <div class="baris">
+    <button type="button" class="tb on" id="b-auto" onclick="togolAuto()">AUTO</button>
+    <button type="button" class="tb" onclick="muatSemula()">MUAT</button>
+    <button type="button" class="tb" onclick="bukaTab()">TAB</button>
+    <button type="button" class="tb" onclick="sorokBar(true)">PENUH</button>
+    <button type="button" class="tb" onclick="keluar()">KELUAR</button>
+  </div>
 </div>
-<button class="tb" id="tunjuk" onclick="sorokBar(false)">▼ bar</button>
+<button type="button" class="tb" id="tunjuk" onclick="sorokBar(false)">BAR</button>
 
-<div id="kosong"><div class="ik">📡</div><div id="kosong-teks">Belum ada CURRENT MONITOR.<br>Buka KodEdit › ⊞ Berbilang › tekan <b>📡 Monitor</b> di tepi nama app.</div></div>
+<div id="kosong"><div class="kad" id="kosong-teks"><h3>BELUM ADA CURRENT MONITOR</h3>Buka KodEdit &rsaquo; Berbilang &rsaquo; tekan <b>Monitor</b> di tepi nama app.</div></div>
 <div id="wrap" style="display:none"></div>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <script>
-// KodEdit Preview — papar kod CURRENT MONITOR dari KodEdit serta-merta (tanpa tunggu GitHub Pages / cache Chrome)
+// KodEdit Preview (mesra Kindle) — papar kod CURRENT MONITOR dari KodEdit serta-merta
 // Data: users/{uid}/monitor/current + /chunks/{0..n-1} (ditulis oleh KodEdit)
 firebase.initializeApp({
   apiKey: "AIzaSyD0hCVXad77dLVERiZLQGn3ne81hQFuqCY",
@@ -88,14 +92,14 @@ function el(id) { return document.getElementById(id); }
 
 // ── LOG MASUK (sama macam KodEdit) ──
 function masuk() {
-  var e = el('em').value.trim(), p = el('pw').value;
+  var e = el('em').value.replace(/^\s+|\s+$/g, ''), p = el('pw').value;
   if (!e || !p) { el('msg').textContent = 'Isi email dan kata laluan'; return; }
   el('msg').textContent = 'Log masuk...';
   auth.signInWithEmailAndPassword(e, p).then(function() { el('msg').textContent = ''; })
     .catch(function(x) { el('msg').textContent = x.message || x.code; });
 }
 function masukPin() {
-  var pin = el('pin').value.trim();
+  var pin = el('pin').value.replace(/^\s+|\s+$/g, '');
   if (!pin || pin.length < 4) { el('msg').textContent = 'PIN mesti sekurang-kurangnya 4 digit'; return; }
   el('msg').textContent = 'Mengesahkan PIN...';
   db.collection('admin').doc('pin').get().then(function(d) {
@@ -103,14 +107,14 @@ function masukPin() {
     return auth.signInWithEmailAndPassword(ADMIN_EMAIL, d.data().pass).then(function() { el('msg').textContent = ''; });
   }).catch(function(x) { el('msg').textContent = 'Gagal: ' + (x.message || x.code); });
 }
-el('pw').addEventListener('keydown', function(e) { if (e.key === 'Enter') masuk(); });
-el('pin').addEventListener('keydown', function(e) { if (e.key === 'Enter') masukPin(); });
+el('pw').onkeydown = function(e) { if (e.keyCode === 13) masuk(); };
+el('pin').onkeydown = function(e) { if (e.keyCode === 13) masukPin(); };
 function keluar() { if (confirm('Log keluar?')) auth.signOut(); }
 
 auth.onAuthStateChanged(function(u) {
   if (P.unsub) { P.unsub(); P.unsub = null; }
-  if (!u) { el('login').classList.remove('hide'); return; }
-  el('login').classList.add('hide');
+  if (!u) { el('login').className = ''; return; }
+  el('login').className = 'hide';
   dengar(u.uid);
 });
 
@@ -120,16 +124,15 @@ function dengar(uid) {
   P.unsub = monRef(uid).onSnapshot(function(d) {
     var m = d.exists ? d.data() : null;
     P.meta = m;
-    if (!m || m.off || !m.key) { kosong('Belum ada CURRENT MONITOR.<br>Buka KodEdit › ⊞ Berbilang › tekan <b>📡 Monitor</b> di tepi nama app.'); return; }
-    if (!m.v || m.menunggu) { kosong('📡 <b>' + esc(m.name || m.key) + '</b> dipilih — menunggu kod dimuat di KodEdit...'); return; }
+    if (!m || m.off || !m.key) { kosong('<h3>BELUM ADA CURRENT MONITOR</h3>Buka KodEdit &rsaquo; Berbilang &rsaquo; tekan <b>Monitor</b> di tepi nama app.'); return; }
+    if (!m.v || m.menunggu) { kosong('<h3>' + esc(m.name || m.key) + '</h3>Dipilih sebagai monitor — menunggu kod dimuat di KodEdit...'); return; }
     if (m.v === P.v) return;
     ambil(uid, m);
-  }, function(e) { kosong('✕ Gagal dengar: ' + esc(e.code || e.message) + '<br>Semak Firestore Rules: users/{uid}/monitor/**'); });
+  }, function(e) { kosong('<h3>GAGAL</h3>' + esc(e.code || e.message) + '<br>Semak Firestore Rules: users/{uid}/monitor/**'); });
 }
 function ambil(uid, m) {
   var no = ++P.minta, ref = monRef(uid).collection('chunks'), tugas = [], i;
-  el('dot').className = 'flash';
-  el('info').innerHTML = '<b>' + esc(m.name || '') + '</b> · memuat ' + saiz(m.size) + '...';
+  el('info').innerHTML = '<b>' + esc(m.name || '') + '</b> &middot; memuat ' + saiz(m.size) + '...';
   for (i = 0; i < m.n; i++) tugas.push(ref.doc(String(i)).get());
   Promise.all(tugas).then(function(sn) {
     if (no !== P.minta) return; // ada versi lebih baru sedang dimuat
@@ -142,7 +145,7 @@ function ambil(uid, m) {
     P.teks = bahagian.join(''); P.v = m.v;
     if (P.auto || !el('wrap').firstChild) papar();
     else { P.tertangguh = true; statusBar(true); }
-  }).catch(function(e) { el('dot').className = ''; el('info').textContent = '✕ ' + (e.code || e.message); });
+  }).catch(function(e) { el('info').textContent = 'GAGAL: ' + (e.code || e.message); });
 }
 
 // ── PAPAR dalam iframe (iframe baru setiap kali → JS app bermula semula dengan bersih) ──
@@ -159,24 +162,24 @@ function denganBase(html, m) {
   return tag + html;
 }
 function papar() {
-  var w = el('wrap'), f = document.createElement('iframe');
+  var w = el('wrap'), f = document.createElement('iframe'), html = denganBase(P.teks, P.meta || {});
   f.setAttribute('allow', 'autoplay; clipboard-read; clipboard-write; microphone; camera; geolocation; fullscreen');
-  f.srcdoc = denganBase(P.teks, P.meta || {});
-  w.innerHTML = ''; w.appendChild(f);
+  w.innerHTML = '';
+  if ('srcdoc' in f) { f.srcdoc = html; w.appendChild(f); }
+  else { w.appendChild(f); var d = f.contentWindow.document; d.open(); d.write(html); d.close(); } // pelayar lama tanpa srcdoc
   w.style.display = ''; el('kosong').style.display = 'none';
   P.tertangguh = false;
   statusBar(false);
 }
 function statusBar(baru) {
   var m = P.meta || {}, t = new Date(m.at || Date.now());
-  el('dot').className = baru ? 'flash' : 'on';
-  el('info').innerHTML = '<b>' + esc(m.name || '') + '</b> · ' + esc(m.path || '') + ' · ' + saiz(m.size) + ' · ' +
-    t.toLocaleTimeString('ms-MY', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) + (baru ? ' · <b style="color:#ffd166">KOD BARU — tekan ↻</b>' : '');
+  el('info').innerHTML = '<b>' + esc(m.name || '') + '</b> &middot; ' + esc(m.path || '') + ' &middot; ' + saiz(m.size) + ' &middot; ' + jam(t) +
+    (baru ? ' &middot; <span class="baru">KOD BARU — tekan MUAT</span>' : '');
 }
 function kosong(h) {
   el('wrap').style.display = 'none'; el('wrap').innerHTML = '';
   el('kosong').style.display = ''; el('kosong-teks').innerHTML = h;
-  el('dot').className = ''; el('info').textContent = 'Tiada monitor';
+  el('info').textContent = 'Tiada monitor';
   P.v = ''; P.teks = '';
 }
 
@@ -189,15 +192,18 @@ function togolAuto() {
 function muatSemula() { if (P.teks) papar(); }
 function bukaTab() {
   if (!P.teks) return;
-  var url = URL.createObjectURL(new Blob([denganBase(P.teks, P.meta || {})], { type: 'text/html;charset=utf-8' }));
-  window.open(url, '_blank');
-  setTimeout(function() { URL.revokeObjectURL(url); }, 15000);
+  try {
+    var url = URL.createObjectURL(new Blob([denganBase(P.teks, P.meta || {})], { type: 'text/html;charset=utf-8' }));
+    window.open(url, '_blank');
+    setTimeout(function() { URL.revokeObjectURL(url); }, 15000);
+  } catch (e) { alert('Pelayar ini tidak boleh buka tab baru.'); }
 }
 function sorokBar(s) {
   el('bar').className = s ? 'sorok' : '';
   el('wrap').className = s ? 'penuh' : '';
   el('tunjuk').style.display = s ? 'block' : 'none';
 }
+function jam(t) { var h = t.getHours(), m = t.getMinutes(), s = t.getSeconds(), a = h >= 12 ? 'PM' : 'AM'; h = h % 12 || 12; return h + ':' + (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s + ' ' + a; }
 function saiz(b) { b = b || 0; return b >= 1048576 ? (b / 1048576).toFixed(1) + 'MB' : b >= 1024 ? Math.round(b / 1024) + 'KB' : b + 'B'; }
 function esc(s) { return String(s).replace(/[&<>"]/g, function(c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 
